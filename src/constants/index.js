@@ -5,10 +5,9 @@ import { LAYOUT } from "./Layout"
 export * from './Color'
 export * from './Layout'
 export * from './Images'
+export * from './Root'
 
 export const defaultStyles = StyleSheet.create({
-
-
     FBOLD:{
         fontWeight:'bold'
     },
@@ -628,6 +627,9 @@ export const defaultStyles = StyleSheet.create({
     BKP:{
         backgroundColor:COLOR.pinkColor
     },
+    BKSP:{
+        backgroundColor:COLOR.strongPinkColor
+    },
     BKPGR:{
         backgroundColor: "linear-gradient(21.14deg, rgba(128, 28, 255, 0.99) 10.11%, #AF70FF 87.82%);"
     },
@@ -673,6 +675,9 @@ export const defaultStyles = StyleSheet.create({
     },
     CLP:{
         color:COLOR.pinkColor
+    },
+    CLSP:{
+        color:COLOR.strongPinkColor
     },
     CLW:{
         color:COLOR.whiteColor
@@ -823,7 +828,7 @@ export const defaultStyles = StyleSheet.create({
         paddingLeft: normalize(15),
         paddingRight: normalize(15),
         marginRight: 5,
-        height: 45,
+        height: normalize(45),
         width: "100%"
     },
     InputLabel: {

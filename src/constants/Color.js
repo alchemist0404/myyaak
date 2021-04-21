@@ -13,6 +13,7 @@ export const COLOR = {
     lightGreyColor:'#FCFCFD',
     transparent:'transparent',
     pinkColor: "#8E35FF",
+    strongPinkColor: "#6d4099",
     lightPinkColor: "#FAEBFF",
     strongYellowColor: "#E58719",
     textGreyColor: "#808080",

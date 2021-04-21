@@ -6,8 +6,8 @@ import Client from "./Client"
 export default () =>{
 	const {isLogin} = useSelector(state => state.auth)
 	if(!isLogin){
-		return <Client/>
-	}else{
 		return <Guest/>
+	}else{
+		return <Client/>
 	}
 }

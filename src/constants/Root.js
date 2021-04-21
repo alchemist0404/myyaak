@@ -1,5 +1,5 @@
 export const Root = {
-  baseurl:'http://capp.strandwebsites.com/contractor_app/index.php/',
+  baseurl:'https://myyaak.com/restful_api/',
   // baseurltherapy:'https://therapytracker.net/admin/therepy_api/',
   // Authorization:'Basic YWRtaW46MTIzNA==',
   // xapikey:'test@123',

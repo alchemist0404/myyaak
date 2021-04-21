@@ -140,7 +140,7 @@ export class RedeemScreen extends Component {
               }
             </ScrollView>
             <Form style={[S.MB40]}>
-              <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft]} fixedLabel>
+              <Item style={[{borderColor:COLOR.transparent}, S.ML5]} stackedLabel>
                   <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Card Holder Name`}</Label>
                   <Input
                       placeholder='Card Holder Name'
@@ -150,7 +150,7 @@ export class RedeemScreen extends Component {
                       onChangeText={e=>this.setState({cardHolderName:e})}
                   />
               </Item>
-              <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft]} fixedLabel>
+              <Item style={[{borderColor:COLOR.transparent}, S.ML5]} stackedLabel>
                   <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Card Number`}</Label>
                   <Input
                       placeholder='Card Number'
@@ -161,7 +161,7 @@ export class RedeemScreen extends Component {
                   />
               </Item>
               <View style={[S.ROW, S.Jbetween]}>
-                <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft, S.W45P]} fixedLabel>
+                <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.W45P]} stackedLabel>
                     <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Expery Date`}</Label>
                     <Input
                         placeholder='Expery Date'
@@ -171,7 +171,7 @@ export class RedeemScreen extends Component {
                         onChangeText={e=>this.setState({expireDate: e})}
                     />
                 </Item>
-                <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft, S.W45P]} fixedLabel>
+                <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.W45P]} stackedLabel>
                     <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`CVV`}</Label>
                     <Input
                         placeholder='CVV'

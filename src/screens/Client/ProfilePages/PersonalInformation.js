@@ -67,17 +67,17 @@ export class PersonalInformation extends React.Component {
                         </View>
                     </View>
                     <Form style={[S.MT20]}>
-                        <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft]} fixedLabel>
+                        <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.MR5]} stackedLabel>
                             <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Email Address`}</Label>
                             <Input
                                 placeholder='Email'
-                                placeholderTextColor={COLOR.InputBorder} 
+                                placeholderTextColor={COLOR.InputBorder}
                                 style={[S.InputText, S.BoxShadow1]}
                                 value={email}
                                 onChangeText={e=>this.setState({email:e})}
                             />
                         </Item>
-                        <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft]} fixedLabel>
+                        <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.MR5]} stackedLabel>
                             <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Phone Number`}</Label>
                             <Input
                                 placeholder='Phone Number'
@@ -87,7 +87,7 @@ export class PersonalInformation extends React.Component {
                                 onChangeText={e=>this.setState({phoneNumber: e})}
                             />
                         </Item>
-                        <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft]} fixedLabel>
+                        <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.MR5]} stackedLabel>
                             <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Home Address`}</Label>
                             <Input
                                 placeholder='Home Address'
@@ -97,7 +97,7 @@ export class PersonalInformation extends React.Component {
                                 onChangeText={e=>this.setState({homeAddress: e})}
                             />
                         </Item>
-                        <Item style={[{borderColor:COLOR.transparent, flexDirection: 'column'}, S.ML5, S.Tleft]} fixedLabel>
+                        <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.MR5]} stackedLabel>
                             <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Password`}</Label>
                             <Input
                                 placeholder='Password'

@@ -5,7 +5,7 @@ import { COLOR } from '../constants'
 const Loading = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator animating={true} size="large" color={COLOR.primary} />
+      <ActivityIndicator animating={true} size="large" color={COLOR.pinkColor} />
     </View>
   )
 }
