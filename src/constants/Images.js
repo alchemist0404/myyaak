@@ -1,0 +1,56 @@
+export const Images = {
+    Logo:require('../../assets/logo.png'),
+    UserBlack:require('../../assets/user.png'),
+    UserWhite:require('../../assets/user-white.png'),
+    HomeFlag:require('../../assets/home-flag.png'),
+    FemaleUser:require('../../assets/user-female.png'),
+    MaleUser:require('../../assets/user-male.png'),
+    Home:require('../../assets/icons-home.png'),
+    HomeWhite:require('../../assets/home-white.png'),
+    HomeBlack:require('../../assets/home-black.png'),
+    MoneyBag:require('../../assets/money-bag.png'),
+    Cash:require('../../assets/cash.png'),
+    Line:require('../../assets/line.png'),
+    PercentOff:require('../../assets/10percentoff.png'),
+    Success:require('../../assets/complete.png'),
+    Pending:require('../../assets/notcomplete.png'),
+    Marker:require('../../assets/marker.png'),
+    Location:require('../../assets/location.png'),
+    Medal:require('../../assets/medal.png'),
+    Exchange:require('../../assets/exchange.png'),
+    LogoIcon: require('../../assets/logoico.png'),
+
+    GrUser: require('../../assets/gradientuser.png'),
+    GrWallet: require('../../assets/gradientwallet.png'),
+    GrHistory: require('../../assets/gradienthistory.png'),
+    GrRedeem: require('../../assets/gradientredeem.png'),
+    GrList: require('../../assets/gradientlist.png'),
+    GrLogout: require('../../assets/gradientsignout.png'),
+
+    BackgroundPink: require('../../assets/pinkbackground.png'),
+    SliderThumb: require('../../assets/slider-thumb.png'),
+
+    PaypalIcon: require('../../assets/icon-paypal.png'),
+    PayoneerIcon: require('../../assets/icon-payoneer.png'),
+
+    CardWallet: require('../../assets/card-wallet.png'),
+
+    YellowDolla: require('../../assets/dollar.png'),
+    MasterCard: require('../../assets/mastercard.png'),
+    BlueBGPaypal: require('../../assets/bluebgpaypal.png'),
+    GreenFlag: require('../../assets/successtask.png'),
+    Anna: require('../../assets/anan.jpg'),
+
+    BlueCard: require('../../assets/paymentcards/bluecard.png'),
+    PinkCard: require('../../assets/paymentcards/pinkcard.png'),
+    SBlueCard: require('../../assets/paymentcards/sbluecard.png'),
+
+    Gold1: require('../../assets/golds/goldmoney1.png'),
+    Gold2: require('../../assets/golds/goldmoney2.png'),
+    Gold3: require('../../assets/golds/goldmoney3.png'),
+    Gold4: require('../../assets/golds/goldmoney4.png'),
+
+    GrDollar: require('../../assets/gradient/gradientdolla.png'),
+    GrBag: require('../../assets/gradient/gradientbag.png'),
+    GrTransfer: require('../../assets/gradient/gradienttransfer.png'),
+}
