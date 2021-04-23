@@ -1,11 +1,13 @@
 import { Root } from "../../constants"
 import { store } from '../Store'
 export const fetchs = async ({url,body={},method='POST', headers = {}}) =>{
+  console.log(`store`, store.getState().auth.user)
   const fetchResponse = await fetch(`${Root.baseurl}${url}`, {
     method: method,
     headers: {
       ...headers,
       'Content-Type': 'application/json',
+      'User': store.getState().auth.user
     },
     body: JSON.stringify(body),
   }).catch(error=>console.log(error))

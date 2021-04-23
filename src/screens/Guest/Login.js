@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { useDispatch } from "react-redux"
-import { Image, TouchableOpacity, View, ImageBackground, StyleSheet } from 'react-native'
-import { Container, Content, Button, Item, Input, Form, Text, Toast, Label } from "native-base"
+import { Image, TouchableOpacity, View, ImageBackground, StyleSheet, StatusBar } from 'react-native'
+import { Container, Content, Button, Item, Input, Form, Text, Toast, Label, Header } from "native-base"
 import { COLOR, Images, LAYOUT, defaultStyles } from "../../constants"
 import { fetchs } from "../../redux/services"
 import { setUserInfo } from "../../redux/actions/authActions"
@@ -30,24 +30,24 @@ const Login = ({navigation}) => {
 		}
 		setLoading(true)
 
-		const response = await fetchs({url: "token",body:{
+		const response = await fetchs({url: "user/login",body:{
 			username: email,
-			password,
-			grant_type: "password"
-		}, headers: {
-			"Authorization": "Basic bW9iaWxlYXBpOjczOGFiNWI4M2M5MDJhN2I4MTg2MGUwNTgxMWZkNWNkNjVlOTVmNzI="
+			password
 		}})
-		if (response["error"]) {
-			Toast.show({text: response["error_description"],buttonText: "X",type: "danger",duration:4000,position:'top'});
-			setLoading(false);
+		if (response.status == true) {
+			console.log(`response.data`, response.data);
+			dispatch(setUserInfo( response.data ))
 		} else {
-			console.log(`response`, response)
-			dispatch(setUserInfo( response ))
+			Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
+			setLoading(false);
 		}
 	}
 
 	return (
 		<Container>
+			<Header style={{height: 0}}>
+				<StatusBar hidden={true}  />
+			</Header>
 			<Content>
 				<View style={[S.MV50, S.Acenter, S.Jcenter]}>
 					<Image source={Images.Logo} style={{width: normalize(100), resizeMode: "contain", height: normalize(100)}} />
