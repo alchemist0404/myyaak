@@ -2,15 +2,19 @@ import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { COLOR, defaultStyles, Images, LAYOUT } from "../../constants"
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Button, Container, Content, Footer, FooterTab, Header, Icon, Left, Right } from 'native-base'
+import { Button, Container, Content, Footer, FooterTab, Header, Icon, Left, Right, Toast } from 'native-base'
 import normalize from 'react-native-normalize'
 import { MaterialIcons, Octicons, Entypo, Foundation, FontAwesome5 } from '@expo/vector-icons';
 import { fetchs } from '../../redux/services'
 import { setUserInfo } from '../../redux/actions/authActions'
 import { useSelector } from 'react-redux'
+import Loading from '../../theme/Loading'
 
 const HomeScreen = ({navigation}) => {
-  var taks = [
+  const dispatch = useDispatch();
+  const user = useSelector(state => state.auth.user)
+  const [loading, setLoading] = useState(false)
+  const tasks = [
     {
       name: "Task 1",
       complete: true,
@@ -32,14 +36,28 @@ const HomeScreen = ({navigation}) => {
       complete: false,
     },
   ]
-  const dispatch = useDispatch();
 
-  useEffect(() => {
-    async () => {
-      const token = useSelector(state => state)
-      console.log(`token`, token)
-    }
+  if (loading) {
+		return ( <Loading />)
+	}
+
+
+  useEffect( () => {
+    getUserData()
   }, [])
+  
+  const getUserData = async () => {
+    const response = await fetchs({
+      url: "user/getUserData"
+    })
+    console.log(`response.data`, response.data)
+    if (response.status == true) {
+      dispatch(setUserInfo({
+        ...user,
+        userInfo: response.data
+      }))
+    }
+  }
 
   return (
     <Container>
@@ -103,7 +121,7 @@ const HomeScreen = ({navigation}) => {
           </View>
           <View style={[S.MT20, S.ROW, S.Jbetween]}>
             {
-              taks.map((item, i) => (
+              tasks.map((item, i) => (
                 <View key={i} style={[S.Acenter]}>
                   {
                     item.complete ? 

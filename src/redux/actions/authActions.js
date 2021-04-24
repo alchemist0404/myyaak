@@ -5,6 +5,13 @@ export const setUserInfo = (user) => {
   };
 }
 
+export const setLoginInfo = (user) => {
+  return {
+    type: 'SET_LOGININFO',
+    payload: {user},
+  };
+}
+
 export const updateUserInfo = (user) => {
   return {
     type: 'UPDATE_USERINFO',

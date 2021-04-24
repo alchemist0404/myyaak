@@ -1,17 +1,23 @@
 import { Root } from "../../constants"
 import { store } from '../Store'
+import { LogOut } from '../actions/authActions'
+
 export const fetchs = async ({url,body={},method='POST', headers = {}}) =>{
-  console.log(`store`, store.getState().auth.user)
   const fetchResponse = await fetch(`${Root.baseurl}${url}`, {
     method: method,
     headers: {
       ...headers,
       'Content-Type': 'application/json',
-      'User': store.getState().auth.user
+      'User': JSON.stringify(store.getState().auth.user),
+      'LogIn': JSON.stringify(store.getState().auth.loginInfo)
     },
     body: JSON.stringify(body),
   }).catch(error=>console.log(error))
-    return await fetchResponse.json()
+  const resultData = await fetchResponse.json();
+  if (resultData.session) {
+    store.dispatch( LogOut() )
+  }
+  return resultData
 }
 
 export const GetCardType = (number) =>{

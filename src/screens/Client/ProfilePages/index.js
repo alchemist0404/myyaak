@@ -6,10 +6,12 @@ import { Footer, FooterTab, Button, Header, Content, Container } from 'native-ba
 import { MaterialIcons, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import normalize from 'react-native-normalize'
 import { LogOut } from '../../../redux/actions/authActions'
-
+import { useSelector } from 'react-redux'
 
 const ProfileScreen = ({navigation}) => {
     const dispatch = useDispatch()
+    const user = useSelector(state => state.auth.user).userInfo.data
+    console.log(`user`, user)
     return (
         <Container>
             {/* Header */}
@@ -32,8 +34,8 @@ const ProfileScreen = ({navigation}) => {
                         <View>
                             <Text style={[S.F12, S.BKSY, S.P5, S.CLW, {borderRadius: 3, paddingHorizontal: 10, width: normalize(55)}]}>{`Level 2`}</Text>
                         </View>
-                        <Text style={[S.CLBL, S.MT10]}>{`Emerson Dokidis`}</Text>
-                        <Text style={[S.F12, S.MT5, {color: 'rgba(0,0,0,0.5)'}]}>{`Student`}</Text>
+                        <Text style={[S.CLBL, S.MT10]}>{`${user.full_name}`}</Text>
+                        <Text style={[S.F12, S.MT5, {color: 'rgba(0,0,0,0.5)'}]}>{`${user.title}`}</Text>
                     </View>
                 </View>
                 {/* Balance cards */}

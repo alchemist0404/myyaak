@@ -12,6 +12,9 @@ export default function reducer(state = initialState, action) {
         draft.user = action.payload.user;
         draft.isLogin = true;
         return;
+      case 'SET_LOGININFO':
+        draft.loginInfo = action.payload.user;
+        return;
       case 'UPDATE_USERINFO':
         draft.user = action.payload.user;
         return;

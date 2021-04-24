@@ -4,7 +4,7 @@ import { Image, TouchableOpacity, View, ImageBackground, StyleSheet, StatusBar }
 import { Container, Content, Button, Item, Input, Form, Text, Toast, Label, Header } from "native-base"
 import { COLOR, Images, LAYOUT, defaultStyles } from "../../constants"
 import { fetchs } from "../../redux/services"
-import { setUserInfo } from "../../redux/actions/authActions"
+import { setUserInfo, setLoginInfo } from "../../redux/actions/authActions"
 import { Octicons } from '@expo/vector-icons'; 
 import Loading from "../../theme/Loading"
 import normalize from "react-native-normalize"
@@ -28,6 +28,7 @@ const Login = ({navigation}) => {
 			Toast.show({text: "Password is Required!",buttonText: "X",type: "danger",duration:4000,position:'top'});
 			return
 		}
+		
 		setLoading(true)
 
 		const response = await fetchs({url: "user/login",body:{
@@ -35,8 +36,8 @@ const Login = ({navigation}) => {
 			password
 		}})
 		if (response.status == true) {
-			console.log(`response.data`, response.data);
-			dispatch(setUserInfo( response.data ))
+			dispatch(setUserInfo( { token: response.data } ))
+			dispatch(setLoginInfo( { username: email, password } ))
 		} else {
 			Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
 			setLoading(false);
