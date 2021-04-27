@@ -31,7 +31,7 @@ const Login = ({navigation}) => {
 		
 		setLoading(true)
 
-		const response = await fetchs({url: "user/login",body:{
+		const response = await fetchs({url: "player/user/login",body:{
 			username: email,
 			password
 		}})

@@ -34,7 +34,7 @@ const HomeScreen = ({navigation}) => {
     {
       name: "Task 5",
       complete: false,
-    },
+    }
   ]
 
   if (loading) {
@@ -48,7 +48,7 @@ const HomeScreen = ({navigation}) => {
   
   const getUserData = async () => {
     const response = await fetchs({
-      url: "user/getUserData"
+      url: "player/user/getUserData"
     })
     console.log(`response.data`, response.data)
     if (response.status == true) {

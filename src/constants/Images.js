@@ -5,6 +5,7 @@ export const Images = {
     HomeFlag:require('../../assets/home-flag.png'),
     FemaleUser:require('../../assets/user-female.png'),
     MaleUser:require('../../assets/user-male.png'),
+    BlankProfile:require('../../assets/blank-profile.png'),
     Home:require('../../assets/icons-home.png'),
     HomeWhite:require('../../assets/home-white.png'),
     HomeBlack:require('../../assets/home-black.png'),

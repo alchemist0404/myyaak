@@ -6,12 +6,15 @@ import { Footer, FooterTab, Button, Header, Content, Container } from 'native-ba
 import { MaterialIcons, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import normalize from 'react-native-normalize'
 import { LogOut } from '../../../redux/actions/authActions'
+import { Root } from '../../../constants'
 import { useSelector } from 'react-redux'
 
 const ProfileScreen = ({navigation}) => {
     const dispatch = useDispatch()
     const user = useSelector(state => state.auth.user).userInfo.data
-    console.log(`user`, user)
+
+    const profilePhoto = user.user_image ? {uri: Root.profileAvatarURL + user.user_image} : Images.BlankProfile;
+    
     return (
         <Container>
             {/* Header */}
@@ -26,8 +29,8 @@ const ProfileScreen = ({navigation}) => {
             <Content style={[S.BKLG, S.P20, S.PT0]}>
                 {/* Small info */}
                 <View style={[S.ROW, S.Acenter, S.W100P, S.MT10]}>
-                    <View style={[S.BKLB, S.PT10, S.PR10, S.W30P, {borderRadius: 10}]}>
-                        <Image source={Images.MaleUser} style={[S.profilePhoto]} />
+                    <View style={[S.BKLB, S.W30P, {borderRadius: 10, overflow: "hidden"}]}>
+                        <Image source={profilePhoto} style={[S.profilePhoto]} />
                     </View>
                     <View style={[S.BoxShadow1, S.H90, S.BKW, S.P10, {borderTopRightRadius: 10, borderBottomRightRadius: 10, paddingHorizontal: 10, flexGrow: 1, marginRight: 5}]}>
                         <Image style={[S.POSA, {width: normalize(17.89), height: normalize(24.72), right: 20}]} source={Images.Medal} />
@@ -177,9 +180,10 @@ const S = StyleSheet.create({
       paddingHorizontal: 15
     },
     profilePhoto: {
-        width: normalize(100),
+        resizeMode: "cover",
+        width: "100%",
         height: normalize(100),
-        resizeMode: "contain",
+        borderRadius: 10
     },
     balanceCardImg: {
         width: normalize(18),

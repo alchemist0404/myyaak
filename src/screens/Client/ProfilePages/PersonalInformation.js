@@ -8,10 +8,12 @@ import { Footer, FooterTab, Button, Header, Content, Container, Item, Input, Lab
 import { AntDesign, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import { Slider } from "@miblanchard/react-native-slider";
 import { useSelector } from 'react-redux'
+import { Root } from '../../../constants'
 
 const PersonalInformation = ({navigation}) => {
     const user = useSelector(state => state.auth.user).userInfo.data
     const auth = useSelector(state => state.auth.loginInfo)
+    const profilePhoto = user.user_image ? {uri: Root.profileAvatarURL + user.user_image} : Images.BlankProfile;
 
     const [userDetail, setUserDetail] = useState({
         email: user.email,
@@ -41,7 +43,7 @@ const PersonalInformation = ({navigation}) => {
                 {/* Small info */}
                 <View style={[S.ROW, S.Acenter, S.W100P, S.MT10]}>
                     <View style={[S.BKLB, S.PT10, S.PR10, S.W30P, {borderRadius: 10}]}>
-                        <Image source={Images.MaleUser} style={[S.profilePhoto]} />
+                        <Image source={profilePhoto} style={[S.profilePhoto]} />
                     </View>
                     <View style={[{borderTopRightRadius: 10, borderBottomRightRadius: 10, paddingHorizontal: 10, flexGrow: 1, marginRight: 5}]}>
                         <Text style={[S.CLBL]}>{`${user.full_name}`}</Text>
