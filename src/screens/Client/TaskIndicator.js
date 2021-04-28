@@ -63,12 +63,12 @@ const TaskIndicator = ({navigation}) => {
                 <View style={[S.circle]}></View>
                 <Text style={[S.FW700, S.ML10]}>{`100`}</Text>
             </View>
-            <MapboxGL.MapView style={[S.W100P, S.H100P]} ref={_map}>
+            <MapboxGL.MapView style={[S.W100P, S.H100P]} ref={_map} styleURL="mapbox://styles/maletiger/cknzyzkyr0jap17mngkwae4k3">
                 <MapboxGL.Camera centerCoordinate={center} zoomLevel={17} />
                 {
                     tasks.length > 0 ?
                         tasks.map((item, i) => (
-                            <MapboxGL.MarkerView draggable={true} coordinate={[item.task_position.lng, item.task_position.lat]} id={`task${i}`} key={i}>
+                            <MapboxGL.MarkerView coordinate={[item.task_position.lng, item.task_position.lat]} id={`task${i}`} key={i}>
                                 <Image source={Images.Marker} style={{width: normalize(47), height: normalize(58), resizeMode:"contain"}} />
                             </MapboxGL.MarkerView>
                         ))

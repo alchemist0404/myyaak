@@ -6,7 +6,7 @@ import { Button, Container, Content, Footer, FooterTab, Header, Icon, Left, Righ
 import normalize from 'react-native-normalize'
 import { MaterialIcons, Octicons, Entypo, Foundation, FontAwesome5 } from '@expo/vector-icons';
 import { fetchs } from '../../redux/services'
-import { setUserInfo } from '../../redux/actions/authActions'
+import { LogOut, setUserInfo } from '../../redux/actions/authActions'
 import { useSelector } from 'react-redux'
 import Loading from '../../theme/Loading'
 
@@ -37,12 +37,8 @@ const HomeScreen = ({navigation}) => {
     }
   ]
 
-  if (loading) {
-		return ( <Loading />)
-	}
-
-
   useEffect( () => {
+    setLoading(true)
     getUserData()
   }, [])
   
@@ -50,14 +46,18 @@ const HomeScreen = ({navigation}) => {
     const response = await fetchs({
       url: "player/user/getUserData"
     })
-    console.log(`response.data`, response.data)
+    setLoading(false)
     if (response.status == true) {
       dispatch(setUserInfo({
         ...user,
-        userInfo: response.data
+        userInfo: response.data.data
       }))
     }
   }
+
+  if (loading) {
+		return ( <Loading />)
+	}
 
   return (
     <Container>

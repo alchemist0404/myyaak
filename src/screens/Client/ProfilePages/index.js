@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux'
 
 const ProfileScreen = ({navigation}) => {
     const dispatch = useDispatch()
-    const user = useSelector(state => state.auth.user).userInfo.data
+    const user = useSelector(state => state.auth.user).userInfo
 
     const profilePhoto = user.user_image ? {uri: Root.profileAvatarURL + user.user_image} : Images.BlankProfile;
     

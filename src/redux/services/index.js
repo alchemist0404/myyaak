@@ -12,7 +12,7 @@ export const fetchs = async ({url,body={},method='POST', headers = {}}) =>{
       'LogIn': JSON.stringify(store.getState().auth.loginInfo)
     },
     body: JSON.stringify(body),
-  }).catch(error=>console.log(error))
+  }).catch(error=>console.log(`error`, error))
   const resultData = await fetchResponse.json();
   if (resultData.session) {
     store.dispatch( LogOut() )
