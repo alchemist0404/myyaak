@@ -5,6 +5,8 @@ import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View, Button } fr
 import Steps from 'react-native-steps';
 import { fetchs } from '../../redux/services';
 import MapboxGL from "@react-native-mapbox-gl/maps";
+import { Toast } from 'native-base';
+import Loading from '../../theme/Loading';
 MapboxGL.setAccessToken("pk.eyJ1IjoibWFsZXRpZ2VyIiwiYSI6ImNrbjQ5eGMxcTA0dDIydm9mbjY4Zm8wOHMifQ.TWABwlDJkdgUACO1DMeBPw");
 
 const labels = ["5 Points","5 Points","5 Points","5 Points","5 Points"];
@@ -34,6 +36,7 @@ const configs = {
 
 const TaskIndicator = ({navigation}) => {
 
+    const [loading, setLoading] = useState(false)
     const [tasks, setTasks] = useState([])
     const [center, setCenter] = useState([
         151.2144,
@@ -43,19 +46,36 @@ const TaskIndicator = ({navigation}) => {
     const _map = useRef()
 
     useEffect(() => {
+        setLoading(true)
         async function fetchData() {
             const response = await fetchs({
                 url: "player/tasks/getTasks"
             })
+            console.log(`response`, response)
             if (response.status) {
                 setTasks(response.data)
-                setCenter([response.data[0].task_position.lng, response.data[0].task_position.lat])
+                if (response.data.length > 0) {
+                    setCenter([response.data[0].task_position.lng, response.data[0].task_position.lat])
+                }
             } else {
                 console.log(`Error ------> `, response.data)
             }
+            setLoading(false)
         }
         fetchData()
     }, [])
+
+    const startTask = () => {
+        if (tasks.length == 0) {
+            Toast.show({text: "There is no task", buttonText: "X", type: "danger", duration:4000, position:'top'});
+            return
+        }
+        navigation.navigate("TaskScreen")
+    }
+
+    if (loading) {
+		return ( <Loading />)
+	}
 
     return (
         <View>
@@ -83,7 +103,7 @@ const TaskIndicator = ({navigation}) => {
                     reversed={false}
                     direction="horizontal"
                 />
-                <TouchableOpacity style={[S.P15, S.playButton, S.MT15]} onPress={()=>navigation.navigate("TaskScreen")}>
+                <TouchableOpacity style={[S.P15, S.playButton, S.MT15]} onPress={()=>startTask()}>
                     <Text style={[S.CLW, S.Tcenter]}>Play Now</Text>
                 </TouchableOpacity>
             </View>
