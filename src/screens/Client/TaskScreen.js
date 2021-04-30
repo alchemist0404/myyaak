@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { COLOR, defaultStyles, Images, LAYOUT } from "../../constants"
+import { COLOR, defaultStyles, Images, LAYOUT, Root } from "../../constants"
 import { StyleSheet, Text, Platform, View } from 'react-native'
 import WebView from 'react-native-webview'
 import { request, PERMISSIONS, requestMultiple } from 'react-native-permissions';
+import { useSelector } from 'react-redux';
 
 const TaskScreen = ({navigation}) => {
 	const [hasPermission, setHasPermission] = useState(null)
-	const [hasLocationPermission, setHasLocationPermission] = useState(null)
+	const user = useSelector(state => state.auth.user)
+	const loginInfo = useSelector(state => state.auth.loginInfo)
 
 	useEffect(() => {
 		if (Platform.OS === 'android') {
@@ -34,8 +36,11 @@ const TaskScreen = ({navigation}) => {
 	
 	return (
 		<View style={{width: LAYOUT.window.width, height: LAYOUT.window.height}}>
+			{
+				console.log(`${Root.baseurl}?session_token=${user.token.session_token}&username=${loginInfo.username}&password=${loginInfo.password}`)
+			}
 			<WebView
-				source={{ uri: 'https://ibluday.com/AR/' }}
+				source={{ uri: `${Root.baseurl}?session_token=${user.token.session_token}&username=${loginInfo.username}&password=${loginInfo.password}` }}
 				mediaPlaybackRequiresUserAction={false}
 				style={{width: LAYOUT.window.width, height: LAYOUT.window.height}}
 			/>

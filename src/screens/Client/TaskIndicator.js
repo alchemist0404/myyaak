@@ -45,7 +45,7 @@ const TaskIndicator = ({navigation}) => {
     useEffect(() => {
         async function fetchData() {
             const response = await fetchs({
-                url: "admin/tasks/getTasks"
+                url: "player/tasks/getTasks"
             })
             if (response.status) {
                 setTasks(response.data)
