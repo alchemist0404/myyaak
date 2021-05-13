@@ -38,11 +38,11 @@ export class PaymentInformationScreen extends Component {
 		return (
 			<View>
 				<ParallaxImage
-						source={item.image}
-						containerStyle={S.imageContainer}
-						style={[{resizeMode: "contain"}]}
-						parallaxFactor={0.4}
-						{...parallaxProps}
+					source={item.image}
+					containerStyle={S.imageContainer}
+					style={[{resizeMode: "contain"}]}
+					parallaxFactor={0.4}
+					{...parallaxProps}
 				/>
 			</View>
 		);
@@ -70,23 +70,23 @@ export class PaymentInformationScreen extends Component {
 							onSnapToItem={(index) => this.setState({ activeSlide: index }) }
 						/>
 						<Pagination
-              dotsLength={this.state.sliderData.length}
-              activeDotIndex={this.state.activeSlide}
-              containerStyle={[{backgroundColor: 'transparent', paddingVertical:5}]}
-              dotStyle={{
-                  width: 20,
-                  height: 7,
-                  borderRadius: 5,
-                  marginHorizontal:-5,
-                  backgroundColor: COLOR.pinkColor
-              }}
-              inactiveDotStyle={{
-                  width: 10,
-									height: 10
-              }}
-              inactiveDotOpacity={0.4}
-              inactiveDotScale={0.6}
-            />
+							dotsLength={this.state.sliderData.length}
+							activeDotIndex={this.state.activeSlide}
+							containerStyle={[{backgroundColor: 'transparent', paddingVertical:5}]}
+							dotStyle={{
+								width: 20,
+								height: 7,
+								borderRadius: 5,
+								marginHorizontal:-5,
+								backgroundColor: COLOR.pinkColor
+							}}
+							inactiveDotStyle={{
+								width: 10,
+													height: 10
+							}}
+							inactiveDotOpacity={0.4}
+							inactiveDotScale={0.6}
+						/>
 					</View>
 					<TouchableOpacity style={[S.BKB, S.P20, {borderRadius: 10}, S.Jbetween, S.MT20, S.MV15]}>
 						<View style={[S.ROW, S.Acenter, S.Jcenter]}>

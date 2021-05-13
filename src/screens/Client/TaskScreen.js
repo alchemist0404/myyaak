@@ -36,6 +36,9 @@ const TaskScreen = ({navigation}) => {
 	
 	return (
 		<View style={{width: LAYOUT.window.width, height: LAYOUT.window.height}}>
+			{
+				console.log(`${Root.baseurl}?session_token=${user.token.session_token}&username=${loginInfo.username}&password=${loginInfo.password}`)
+			}
 			<WebView
 				source={{ uri: `${Root.baseurl}?session_token=${user.token.session_token}&username=${loginInfo.username}&password=${loginInfo.password}` }}
 				mediaPlaybackRequiresUserAction={false}
