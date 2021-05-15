@@ -2,72 +2,28 @@ import React, { Component, useState } from 'react'
 import normalize from 'react-native-normalize'
 import { COLOR, defaultStyles, Images, LAYOUT, Root } from "../../../constants"
 import { Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Footer, FooterTab, Button, Header, Content, Container, Item, Input, Label, Form } from 'native-base'
+import { Footer, FooterTab, Button, Header, Content, Container, Item, Input, Label, Form, Toast } from 'native-base'
 import { AntDesign, Entypo, Feather, Octicons } from '@expo/vector-icons';
 import Loading from '../../../theme/Loading'
+import { fetchs } from '../../../redux/services'
 
 const RedeemConfirmScreen = ({navigation}) => {
   const [loading, setLoading] = useState(false)
   const paymentInfo = navigation.state.params
-  const paypalDetail = {
-    "intent": "sale",
-    "payer": {
-      "payment_method": "paypal"
-    },
-    "transactions": [{
-      "amount": {
-        "total": paymentInfo.amount,
-        "currency": "AUD",
-        "details": {
-          "subtotal": paymentInfo.amount,
-          "tax": "0",
-          "shipping": "0",
-          "handling_fee": "0",
-          "shipping_discount": "0",
-          "insurance": "0"
-        }
-      }
-    }],
-    "redirect_urls": {
-      "return_url": Root.paymentReturnURL,
-      "cancel_url": Root.paymentCancelURL
-    }
-  }
+
   const redeem = async () => {
     setLoading(true)
     if (paymentInfo.type == "paypal") {
-      var data = "grant_type=client_credentials";
-
-      var xhr = new XMLHttpRequest();
-      xhr.withCredentials = true;
-      
-      xhr.open("POST", "https://api.sandbox.paypal.com/v1/oauth2/token");
-      xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-      xhr.setRequestHeader("Authorization", "Basic QVZENVRLV1Z1b0Y5cE13TEp4bWxkejBDSVR4N0hxbTlQU0RKcDlGSkNZUFJpTlN4akF6czR4SGNIWUV4SGQyWGZuSkxiS1Y1Rm9tMFVqUHo6RUVKRWRHMFBEWFNBaGdSNE1VVHR3b2lxdTFDb0hzdThLYXYwTWZmMFpEY29EM1BmVXBZV3JZSnlWblNSSTZjS1p4d1NMbHZoSlFhZzVoWGw=");
-      
-      xhr.send(data);
-
-      xhr.addEventListener("readystatechange", async function() {
-        if(this.readyState === 4) {
-          const response = JSON.parse(this.responseText)
-          var headers = new Headers();
-          headers.append("Content-Type", "application/json");
-          headers.append("Authorization", `${response.token_type} ${response.access_token}`);
-
-          var requestOptions = {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(paypalDetail),
-            redirect: 'follow'
-          };
-
-          var result = await fetch("https://api.sandbox.paypal.com/v1/payments/payment", requestOptions)
-          const responseData = await result.json()
-          var url = responseData.links.find(item => item.rel == "approval_url")
-          navigation.navigate("PaymentWebViewScreen", {url: url.href, amount: paymentInfo.amount})
-          setLoading(false)
-        }
-      });
+      const response = await fetchs({url: "player/payment/depositWithPaypal", body: {
+        amount: paymentInfo.amount
+      }})
+      setLoading(false)
+      if (response.status) {
+        navigation.navigate("PaymentWebViewScreen", {url: response.data.url, paymentID: response.data.payment_id})
+      } else {
+        Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
+        navigation.navigate("HomeScreen")
+      }
     }
   }
   

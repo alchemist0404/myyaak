@@ -4,18 +4,40 @@ import { StyleSheet, Text, Platform, View } from 'react-native'
 import WebView from 'react-native-webview'
 import { useSelector } from 'react-redux';
 import { Toast } from 'native-base';
+import { fetchs } from '../../../redux/services';
 
 const PaymentWebViewScreen = ({navigation}) => {
     const props = navigation.state.params
+	const [changed, setChanged] = useState(false)
 
-	const navigationChange = (status) => {
-		console.log(`props.url`, props.url)
-		console.log(`status.url`, status.url)
+	const navigationChange = async (status) => {
+		if (changed) {
+			return
+		}
+		if (status.url.includes(Root.paymentReturnURL) || status.url.includes(Root.paymentCancelURL)) {
+			setChanged(true)
+		}
 		if (status.url.includes(Root.paymentReturnURL)) {
-			Toast.show({text: "Payment Success!", buttonText: "X", type: "success", duration:4000, position:'top'});
+			const response = await fetchs({url: "player/payment/paymentUpdate", body: {
+				payment_id: props.payment_id,
+				status: "approved"
+			}})
+			if (response.status) {
+				Toast.show({text: "Payment Success!", buttonText: "X", type: "success", duration:4000, position:'top'});
+			} else {
+				Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
+			}
 			navigation.navigate("HomeScreen")
 		} else if (status.url.includes(Root.paymentCancelURL)) {
-			Toast.show({text: "Payment Cancelled!", buttonText: "X", type: "danger", duration:4000, position:'top'});
+			const response = await fetchs({url: "player/payment/paymentUpdate", body: {
+				payment_id: props.payment_id,
+				status: "cancelled"
+			}})
+			if (response.status) {
+				Toast.show({text: "Payment Success!", buttonText: "X", type: "success", duration:4000, position:'top'});
+			} else {
+				Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
+			}
 			navigation.navigate("HomeScreen")
 		}
 	}
