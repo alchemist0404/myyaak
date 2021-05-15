@@ -10,6 +10,7 @@ import RedeemConfirmScreen from '../screens/Client/ProfilePages/RedeemConfirmScr
 import TaskHistoryScreen from '../screens/Client/ProfilePages/TaskHistoryScreen'
 import PaymentInformationScreen from '../screens/Client/ProfilePages/PaymentInformationScreen'
 import PaymentHistoryScreen from '../screens/Client/ProfilePages/PaymentHistoryScreen'
+import PaymentWebViewScreen from '../screens/Client/ProfilePages/PaymentWebViewScreen'
 
 const Cient = createStackNavigator(
 	{
@@ -33,6 +34,9 @@ const Cient = createStackNavigator(
 		},
 		RedeemConfirmScreen: {
 			screen: RedeemConfirmScreen,
+		},
+		PaymentWebViewScreen: {
+			screen: PaymentWebViewScreen,
 		},
 		TaskHistoryScreen: {
 			screen: TaskHistoryScreen,
