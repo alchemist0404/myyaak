@@ -1,12 +1,20 @@
 import React, { Component, useState } from 'react'
 import normalize from 'react-native-normalize'
-import { COLOR, defaultStyles, Images, LAYOUT } from "../../../constants"
+import { COLOR, defaultStyles, Images, LAYOUT, Root } from "../../../constants"
 import { Image, ImageBackground, ScrollView, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { Footer, FooterTab, Button, Header, Content, Container, Item, Input, Label, Form } from 'native-base'
+import { Footer, FooterTab, Button, Header, Content, Container, Item, Input, Label, Form, Toast } from 'native-base'
 import { AntDesign, Entypo, Feather, Octicons } from '@expo/vector-icons';
 import Slider from 'rn-range-slider';
+import TextInputMask from 'react-native-text-input-mask';
+import { fetchs } from '../../../redux/services'
+import stripe from '@agaweb/react-native-stripe';
+import Loading from '../../../theme/Loading'
+
+stripe.initModule(Root.striptPublicKey)
+
 
 const RedeemScreen = ({navigation}) => {
+  const [loading, setLoading] = useState(false)
   const [amount, setAmount] = useState(400)
   const [activePayment, setActivePayment] = useState("credit")
   const [paymentMethods] = useState([
@@ -26,10 +34,10 @@ const RedeemScreen = ({navigation}) => {
     //   icon: Images.PayoneerIcon,
     // }
   ])
-  const [cardHolderName, setCardHolderName] = useState("Emerson Dokidis")
-  const [cardNumber, setCardNumber] = useState("4225976500086141")
-  const [expireDate, setExpireDate] = useState("08/24")
-  const [CVV, setCVV] = useState("722")
+  // const [cardHolderName, setCardHolderName] = useState("")
+  const [cardNumber, setCardNumber] = useState("")
+  const [expireDate, setExpireDate] = useState("")
+  const [CVC, setCVC] = useState("")
 
   const handleValueChange = (amount) => {
     setAmount(amount)
@@ -55,16 +63,65 @@ const RedeemScreen = ({navigation}) => {
     <View style={[{height: 15, width: 1, backgroundColor: COLOR.blueColor}]}></View>
   )
 
-  const goConfirm = () => {
+  const getClientSecret = async () => {
+    const response = await fetchs({url: "player/payment/stripCardCreateSetupIntent", body: {
+      amount
+    }})
+    if (response.status == true) {
+      return Promise.resolve(response)
+    } else {
+      Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
+      return Promise.resolve(false)
+    }
+  }
+
+  const goConfirm = async () => {
     var params = {}
     if (activePayment == "paypal") {
       params = {
         type: "paypal",
         amount
       }
+      navigation.navigate("RedeemConfirmScreen", params)
+    } else if (activePayment == "credit") {
+      setLoading(true)
+      const cardDetail = {
+        number: cardNumber,
+        expMonth: Number(expireDate.split("/")[0]),
+        expYear: Number(expireDate.split("/")[1]),
+        cvc: CVC
+      }
+      const clientSecret = await getClientSecret()
+      if (!clientSecret) {
+        return
+      }
+      console.log(`clientSecret`, clientSecret)
+
+      stripe.confirmPaymentWithCard(clientSecret.data, cardDetail).then(result => {
+        setLoading(false)
+        Toast.show({text: "Payment Success!", buttonText: "X", type: "success", duration:4000, position:'top'});
+        
+        fetchs({url: "player/payment/paymentUpdate", body: {
+          payment_id: clientSecret.paymentId,
+          status: "approved"
+        }})
+        navigation.navigate("HomeScreen")
+      }).catch(error => {
+        setLoading(false)
+        Toast.show({text: error.toString().split("com.stripe.android.exception.CardException:")[1], buttonText: "X", type: "danger", duration:4000, position:'top'});
+
+        fetchs({url: "player/payment/paymentUpdate", body: {
+          payment_id: clientSecret.paymentId,
+          status: "cancelled"
+        }})
+        // navigation.navigate("HomeScreen")
+      })
     }
-    navigation.navigate("RedeemConfirmScreen", params)
   }
+
+  if (loading) {
+		return ( <Loading />)
+	}
   
   return (
     <Container>
@@ -144,7 +201,8 @@ const RedeemScreen = ({navigation}) => {
             {
               activePayment == 'credit' ? 
                 <React.Fragment>
-                  <Item style={[{borderColor:COLOR.transparent}, S.ML5]} stackedLabel>
+                
+                  {/* <Item style={[{borderColor:COLOR.transparent}, S.ML5]} stackedLabel>
                       <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Card Holder Name`}</Label>
                       <Input
                           placeholder='Card Holder Name'
@@ -153,36 +211,66 @@ const RedeemScreen = ({navigation}) => {
                           value={cardHolderName}
                           onChangeText={e=>setCardHolderName(e)}
                       />
-                  </Item>
+                  </Item> */}
                   <Item style={[{borderColor:COLOR.transparent}, S.ML5]} stackedLabel>
                       <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Card Number`}</Label>
-                      <Input
+                      {/* <Input
                           placeholder='Card Number'
                           placeholderTextColor={COLOR.InputBorder} 
                           style={[S.InputText, S.BKW]}
                           value={cardNumber}
                           onChangeText={e=>setCardNumber(e)}
+                      /> */}
+                      <TextInputMask
+                        onChangeText={(formatted, extracted) => {
+                          setCardNumber(extracted)
+                        }}
+                        placeholder='Card Number'
+                        placeholderTextColor={COLOR.InputBorder}
+                        style={[S.InputText]}
+                        value={cardNumber}
+                        mask={"[0000] [0000] [0000] [0000]"}
                       />
                   </Item>
                   <View style={[S.ROW, S.Jbetween]}>
                     <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.W45P]} stackedLabel>
                         <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`Expery Date`}</Label>
-                        <Input
+                        {/* <Input
                             placeholder='Expery Date'
                             placeholderTextColor={COLOR.InputBorder} 
                             style={[S.InputText, S.BKW]}
                             value={expireDate}
                             onChangeText={e=>setExpireDate(e)}
+                        /> */}
+                        <TextInputMask
+                          onChangeText={(formatted, extracted) => {
+                            setExpireDate(formatted)
+                          }}
+                          placeholder='Expery Date'
+                          placeholderTextColor={COLOR.InputBorder}
+                          style={[S.InputText]}
+                          value={expireDate}
+                          mask={"[00]/[00]"}
                         />
                     </Item>
                     <Item style={[{borderColor:COLOR.transparent}, S.ML5, S.W45P]} stackedLabel>
-                        <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`CVV`}</Label>
-                        <Input
-                            placeholder='CVV'
+                        <Label style={[S.W100P, S.F14, S.MV10, S.InputLabel]}>{`CVC`}</Label>
+                        {/* <Input
+                            placeholder='CVC'
                             placeholderTextColor={COLOR.InputBorder} 
                             style={[S.InputText, S.BKW]}
-                            value={CVV}
-                            onChangeText={e=>setCVV(e)}
+                            value={CVC}
+                            onChangeText={e=>setCVC(e)}
+                        /> */}
+                        <TextInputMask
+                          onChangeText={(formatted, extracted) => {
+                            setCVC(extracted)
+                          }}
+                          placeholder='CVC'
+                          placeholderTextColor={COLOR.InputBorder}
+                          style={[S.InputText]}
+                          value={CVC}
+                          mask={"[000]"}
                         />
                     </Item>
                   </View>

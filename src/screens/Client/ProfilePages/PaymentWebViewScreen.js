@@ -18,26 +18,16 @@ const PaymentWebViewScreen = ({navigation}) => {
 			setChanged(true)
 		}
 		if (status.url.includes(Root.paymentReturnURL)) {
-			const response = await fetchs({url: "player/payment/paymentUpdate", body: {
-				payment_id: props.payment_id,
+			fetchs({url: "player/payment/paymentUpdate", body: {
+				payment_id: props.paymentID,
 				status: "approved"
 			}})
-			if (response.status) {
-				Toast.show({text: "Payment Success!", buttonText: "X", type: "success", duration:4000, position:'top'});
-			} else {
-				Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
-			}
 			navigation.navigate("HomeScreen")
 		} else if (status.url.includes(Root.paymentCancelURL)) {
-			const response = await fetchs({url: "player/payment/paymentUpdate", body: {
-				payment_id: props.payment_id,
+			fetchs({url: "player/payment/paymentUpdate", body: {
+				payment_id: props.paymentID,
 				status: "cancelled"
 			}})
-			if (response.status) {
-				Toast.show({text: "Payment Success!", buttonText: "X", type: "success", duration:4000, position:'top'});
-			} else {
-				Toast.show({text: response.data, buttonText: "X", type: "danger", duration:4000, position:'top'});
-			}
 			navigation.navigate("HomeScreen")
 		}
 	}
