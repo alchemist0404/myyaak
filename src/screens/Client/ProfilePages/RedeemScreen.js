@@ -84,6 +84,10 @@ const RedeemScreen = ({navigation}) => {
       }
       navigation.navigate("RedeemConfirmScreen", params)
     } else if (activePayment == "credit") {
+      if (cardNumber.length < 16 || expireDate.length < 5 || CVC.length < 3) {
+        Toast.show({text: "Please input correct value!", buttonText: "X", type: "danger", duration:4000, position:'top'});
+        return
+      }
       setLoading(true)
       const cardDetail = {
         number: cardNumber,

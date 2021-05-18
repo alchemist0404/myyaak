@@ -18,12 +18,14 @@ const PaymentWebViewScreen = ({navigation}) => {
 			setChanged(true)
 		}
 		if (status.url.includes(Root.paymentReturnURL)) {
+			Toast.show({text: "Payment Success!", buttonText: "X", type: "success", duration:4000, position:'top'});
 			fetchs({url: "player/payment/paymentUpdate", body: {
 				payment_id: props.paymentID,
 				status: "approved"
 			}})
 			navigation.navigate("HomeScreen")
 		} else if (status.url.includes(Root.paymentCancelURL)) {
+			Toast.show({text: "Payment Cancelled!", buttonText: "X", type: "danger", duration:4000, position:'top'});
 			fetchs({url: "player/payment/paymentUpdate", body: {
 				payment_id: props.paymentID,
 				status: "cancelled"

@@ -68,7 +68,7 @@ const HomeScreen = ({navigation}) => {
         <View></View>
         <View style={[S.ROW, S.Acenter]}>
           <Octicons name="bell" size={18} color="#838994" />
-          <TouchableOpacity style={[S.BKLP, S.userAvatar, S.ML15]}>
+          <TouchableOpacity style={[S.BKLP, S.userAvatar, S.ML15]} onPress={()=>navigation.navigate('ProfileScreen')}>
             <Image source={Images.FemaleUser} style={[S.userAvatarImg]} />
           </TouchableOpacity>
         </View>
@@ -97,7 +97,7 @@ const HomeScreen = ({navigation}) => {
             </View>
           </View>
           <View style={[S.W100P]}>
-            <TouchableOpacity style={[S.P15, S.W100P, {borderWidth: 0.3, borderColor: COLOR.whiteColor, borderRadius: 7}, S.MT10]}><Text style={[{color: COLOR.whiteColor}, S.Tcenter]}>Redeem</Text></TouchableOpacity>
+            <TouchableOpacity style={[S.P15, S.W100P, {borderWidth: 0.3, borderColor: COLOR.whiteColor, borderRadius: 7}, S.MT10]} onPress={()=>navigation.navigate("RedeemScreen")}><Text style={[{color: COLOR.whiteColor}, S.Tcenter]}>Redeem</Text></TouchableOpacity>
           </View>
         </View>
         {/* Offer percent card */}
