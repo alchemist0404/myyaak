@@ -47,14 +47,14 @@ const ProfileScreen = ({navigation}) => {
                         <View style={[S.BKB, S.P10, {borderRadius: 3}]}>
                             <Image source={Images.Cash} style={[S.balanceCardImg]} />
                         </View>
-                        <Text style={[S.CLBL, S.FW700]}>{`100`}</Text>
+                        <Text style={[S.CLBL, S.FW700]}>{`${user.activity_point}`}</Text>
                         <Text style={[{color: COLOR.textGreyColor}, S.F12]}>{`Toatal Point`}</Text>
                     </View>
                     <View style={[S.Acenter, S.P15, S.BoxShadow1, S.BKW, {borderRadius: 10, width: "30%"}]}>
                         <View style={[S.BKP, S.P10, {borderRadius: 3}]}>
                             <Image source={Images.MoneyBag} style={[S.balanceCardImg]} />
                         </View>
-                        <Text style={[S.CLP, S.FW700]}>{`$250`}</Text>
+                        <Text style={[S.CLP, S.FW700]}>{`$${user.wallet_balance}`}</Text>
                         <Text style={[{color: COLOR.textGreyColor}, S.F12]}>{`Toatal Balance`}</Text>
                     </View>
                     <View style={[S.Acenter, S.P15, S.BoxShadow1, S.BKW, {borderRadius: 10, width: "30%"}]}>

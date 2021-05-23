@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch } from 'react-redux'
-import { COLOR, defaultStyles, Images, LAYOUT } from "../../constants"
+import { COLOR, defaultStyles, Images, LAYOUT, Root } from "../../constants"
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Button, Container, Content, Footer, FooterTab, Header, Icon, Left, Right, Toast } from 'native-base'
 import normalize from 'react-native-normalize'
@@ -54,11 +54,11 @@ const HomeScreen = ({navigation}) => {
       }))
     }
   }
-
+  
   if (loading) {
-		return ( <Loading />)
+    return ( <Loading />)
 	}
-
+  
   return (
     <Container>
       {/* Header */}
@@ -69,7 +69,7 @@ const HomeScreen = ({navigation}) => {
         <View style={[S.ROW, S.Acenter]}>
           <Octicons name="bell" size={18} color="#838994" />
           <TouchableOpacity style={[S.BKLP, S.userAvatar, S.ML15]} onPress={()=>navigation.navigate('ProfileScreen')}>
-            <Image source={Images.FemaleUser} style={[S.userAvatarImg]} />
+            <Image source={user["userInfo"] && user["userInfo"].user_image ? {uri: Root.profileAvatarURL + user["userInfo"].user_image} : Images.BlankProfile} style={[S.userAvatarImg]} />
           </TouchableOpacity>
         </View>
       </Header>
@@ -84,7 +84,7 @@ const HomeScreen = ({navigation}) => {
               <View style={[S.P10, S.balanceInforCardImgGroup]}>
                 <Image source={Images.MoneyBag} style={[S.balanceInfoImage]} />
               </View>
-              <Text style={[S.CLW, S.F30, S.MT15]}>{`$100.00`}</Text>
+              <Text style={[S.CLW, S.F30, S.MT15]}>{`$${user["userInfo"] ? user["userInfo"].wallet_balance : ""}`}</Text>
               <Text style={[S.MT5,{color: 'rgba(255, 255, 255, 0.6)'}]}>{`Available Balance`}</Text>
             </View>
             <Image source={Images.Line} />
@@ -92,7 +92,7 @@ const HomeScreen = ({navigation}) => {
               <View style={[S.P10, S.balanceInforCardImgGroup]}>
                 <Image source={Images.Cash} style={[S.balanceInfoImage, {resizeMode: "contain"}]} />
               </View>
-              <Text style={[S.CLW, S.F30, S.MT15]}>{`1000`}</Text>
+              <Text style={[S.CLW, S.F30, S.MT15]}>{`${user["userInfo"] ? user["userInfo"].activity_point : ""}`}</Text>
               <Text style={[S.MT5,{color: 'rgba(255, 255, 255, 0.6)'}]}>{`Point Balance`}</Text>
             </View>
           </View>

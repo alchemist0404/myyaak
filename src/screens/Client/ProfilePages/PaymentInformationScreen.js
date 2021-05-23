@@ -1,40 +1,37 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { useState } from 'react'
 import normalize from 'react-native-normalize'
-import { navigate, setNavigator } from '../../../redux/services/navigator'
 import { COLOR, defaultStyles, Images, LAYOUT } from "../../../constants"
 import { Image, StatusBar, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { Footer, FooterTab, Button, Header, Content, Container, Item, Input, Label, Form } from 'native-base'
 import { MaterialIcons, Entypo, FontAwesome5 } from '@expo/vector-icons';
 import Carousel, { ParallaxImage, Pagination } from 'react-native-snap-carousel';
+import { useSelector } from 'react-redux'
 
-export class PaymentInformationScreen extends Component {
-	constructor(props, context) {
-		super(props, context);
-		this.state = {
-			sliderData: [
-				{
-					title: '',
-					subtitle: '',
-					image: Images.SBlueCard
-				},
-				{
-					title: '',
-					subtitle: '',
-					image: Images.BlueCard
-				},
-				{
-					title: '',
-					subtitle: '',
-					image: Images.PinkCard
-				},
-			],
-			activeSlide: 1
-		}
-		setNavigator(props.navigation)
-	}
+const PaymentInformationScreen = ({navigation}) => {
+	const [state, setState] = useState({
+		sliderData: [
+			{
+				title: '',
+				subtitle: '',
+				image: Images.SBlueCard
+			},
+			{
+				title: '',
+				subtitle: '',
+				image: Images.BlueCard
+			},
+			{
+				title: '',
+				subtitle: '',
+				image: Images.PinkCard
+			},
+		],
+		activeSlide: 1
+	})
 
-	_renderItem = ({item, index}, parallaxProps) => {
+	const user = useSelector(state => state.auth.user).userInfo
+
+	const _renderItem = ({item, index}, parallaxProps) => {
 		return (
 			<View>
 				<ParallaxImage
@@ -48,91 +45,89 @@ export class PaymentInformationScreen extends Component {
 		);
 	}
 	
-	render() {
-		return (
-			<Container>
-				<Header style={[S.BKLG, S.Jbetween, S.ROW, S.Acenter, S.headerStyle, S.MT20, S.MH10]}>
-					<Entypo name="chevron-thin-left" onPress={()=>this.props.navigation.goBack()} size={12} color="#6B6864" style={{width: normalize(30)}} />
-					<Text style={[S.F18, {color: "#061128"}]}>{`Payment Information`}</Text>
-					<TouchableOpacity style={[S.editButton, S.Acenter]}>
-						<Entypo name="dots-three-vertical" size={10} color="black" />
-					</TouchableOpacity>
-				</Header>
-				<Content style={[S.P20, S.BKLG]}>
-					<View>
-						<Carousel
-							data={this.state.sliderData}
-							renderItem={this._renderItem}
-							sliderWidth={LAYOUT.window.width - normalize(40)}
-							itemWidth={normalize(280)}
-							firstItem={1}
-							hasParallaxImages={true}
-							onSnapToItem={(index) => this.setState({ activeSlide: index }) }
-						/>
-						<Pagination
-							dotsLength={this.state.sliderData.length}
-							activeDotIndex={this.state.activeSlide}
-							containerStyle={[{backgroundColor: 'transparent', paddingVertical:5}]}
-							dotStyle={{
-								width: 20,
-								height: 7,
-								borderRadius: 5,
-								marginHorizontal:-5,
-								backgroundColor: COLOR.pinkColor
-							}}
-							inactiveDotStyle={{
-								width: 10,
-													height: 10
-							}}
-							inactiveDotOpacity={0.4}
-							inactiveDotScale={0.6}
-						/>
+	return (
+		<Container>
+			<Header style={[S.BKLG, S.Jbetween, S.ROW, S.Acenter, S.headerStyle, S.MT20, S.MH10]}>
+				<Entypo name="chevron-thin-left" onPress={()=>navigation.navigate.goBack()} size={12} color="#6B6864" style={{width: normalize(30)}} />
+				<Text style={[S.F18, {color: "#061128"}]}>{`Payment Information`}</Text>
+				<TouchableOpacity style={[S.editButton, S.Acenter]}>
+					<Entypo name="dots-three-vertical" size={10} color="black" />
+				</TouchableOpacity>
+			</Header>
+			<Content style={[S.P20, S.BKLG]}>
+				<View>
+					<Carousel
+						data={state.sliderData}
+						renderItem={_renderItem}
+						sliderWidth={LAYOUT.window.width - normalize(40)}
+						itemWidth={normalize(280)}
+						firstItem={1}
+						hasParallaxImages={true}
+						onSnapToItem={(index) => setState({...state, activeSlide: index }) }
+					/>
+					<Pagination
+						dotsLength={state.sliderData.length}
+						activeDotIndex={state.activeSlide}
+						containerStyle={[{backgroundColor: 'transparent', paddingVertical:5}]}
+						dotStyle={{
+							width: 20,
+							height: 7,
+							borderRadius: 5,
+							marginHorizontal:-5,
+							backgroundColor: COLOR.pinkColor
+						}}
+						inactiveDotStyle={{
+							width: 10,
+												height: 10
+						}}
+						inactiveDotOpacity={0.4}
+						inactiveDotScale={0.6}
+					/>
+				</View>
+				<TouchableOpacity style={[S.BKB, S.P20, {borderRadius: 10}, S.Jbetween, S.MT20, S.MV15]}>
+					<View style={[S.ROW, S.Acenter, S.Jcenter]}>
+						<Entypo name="plus" size={18} color="white" />
+						<Text style={[S.CLW, S.ML5, S.F18]}>{`Add Card`}</Text>
 					</View>
-					<TouchableOpacity style={[S.BKB, S.P20, {borderRadius: 10}, S.Jbetween, S.MT20, S.MV15]}>
-						<View style={[S.ROW, S.Acenter, S.Jcenter]}>
-							<Entypo name="plus" size={18} color="white" />
-							<Text style={[S.CLW, S.ML5, S.F18]}>{`Add Card`}</Text>
-						</View>
-					</TouchableOpacity>
-					<View style={[S.MT20]}>
-						<Text>{`Balance Info`}</Text>
-						<View style={[S.MT20, S.ROW]}>
-							<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
-								<Text style={[{color: "#515969"}, S.F12]}>Available Balance</Text>
-								<View style={[S.ROW, S.Acenter, S.Jbetween]}>
-									<Text style={[S.CLB, S.F22]}>{`$150`}</Text>
-									<Image source={Images.Gold1} />
-								</View>
-							</View>
-							<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
-								<Text style={[{color: "#515969"}, S.F12]}>Pending Balance</Text>
-								<View style={[S.ROW, S.Acenter, S.Jbetween]}>
-									<Text style={[S.CLB, S.F22]}>{`$150`}</Text>
-									<Image source={Images.Gold1} />
-								</View>
+				</TouchableOpacity>
+				<View style={[S.MT20, S.MB30]}>
+					<Text>{`Balance Info`}</Text>
+					<View style={[S.MT20, S.ROW]}>
+						<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
+							<Text style={[{color: "#515969"}, S.F12]}>Available Balance</Text>
+							<View style={[S.ROW, S.Acenter, S.Jbetween]}>
+								<Text style={[S.CLB, S.F22]}>{`$${user.wallet_balance}`}</Text>
+								<Image source={Images.Gold1} />
 							</View>
 						</View>
-						<View style={[S.MT10, S.ROW]}>
-							<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
-								<Text style={[{color: "#515969"}, S.F12]}>Recent Payout</Text>
-								<View style={[S.ROW, S.Acenter, S.Jbetween]}>
-									<Text style={[S.CLB, S.F22]}>{`$99`}</Text>
-									<Image source={Images.Gold1} />
-								</View>
-							</View>
-							<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
-								<Text style={[{color: "#515969"}, S.F12]}>Total Earning</Text>
-								<View style={[S.ROW, S.Acenter, S.Jbetween]}>
-									<Text style={[S.CLB, S.F22]}>{`$758`}</Text>
-									<Image source={Images.Gold1} />
-								</View>
+						<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
+							<Text style={[{color: "#515969"}, S.F12]}>Pending Balance</Text>
+							<View style={[S.ROW, S.Acenter, S.Jbetween]}>
+								<Text style={[S.CLB, S.F22]}>{`$150`}</Text>
+								<Image source={Images.Gold1} />
 							</View>
 						</View>
 					</View>
-				</Content>
-			</Container>
-		)
-	}
+					<View style={[S.MT10, S.ROW]}>
+						<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
+							<Text style={[{color: "#515969"}, S.F12]}>Recent Payout</Text>
+							<View style={[S.ROW, S.Acenter, S.Jbetween]}>
+								<Text style={[S.CLB, S.F22]}>{`$99`}</Text>
+								<Image source={Images.Gold1} />
+							</View>
+						</View>
+						<View style={[S.M10, S.W45P, S.BKW, S.P15, {borderRadius: 10}]}>
+							<Text style={[{color: "#515969"}, S.F12]}>Total Earning</Text>
+							<View style={[S.ROW, S.Acenter, S.Jbetween]}>
+								<Text style={[S.CLB, S.F22]}>{`$758`}</Text>
+								<Image source={Images.Gold1} />
+							</View>
+						</View>
+					</View>
+				</View>
+			</Content>
+		</Container>
+	)
 }
 const S = StyleSheet.create({
 	...defaultStyles,
@@ -152,12 +147,4 @@ const S = StyleSheet.create({
   }
 })
 
-const mapStateToProps = (state) => ({
-    
-})
-
-const mapDispatchToProps = {
-    
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PaymentInformationScreen)
+export default PaymentInformationScreen
